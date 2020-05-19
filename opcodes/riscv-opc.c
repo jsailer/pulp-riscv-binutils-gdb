@@ -134,6 +134,8 @@ const struct riscv_opcode riscv_opcodes[] =
 {"checkpc",   "I",   "d,s,j",  MATCH_CHECKPC, MASK_CHECKPC, match_opcode, INSN_ALIAS },
 {"setpclabel","I",   "d,s,j",  MATCH_SETPCLABEL, MASK_SETPCLABEL, match_opcode, INSN_ALIAS },
 {"checklabel","I",   "d,s,j",  MATCH_CHECKLABEL, MASK_CHECKLABEL, match_opcode, INSN_ALIAS },
+{"sjcfi",     "I",   "d,s,j",  MATCH_SJCFI, MASK_SJCFI, match_opcode, INSN_ALIAS },
+{"ljcfi",     "I",   "",  MATCH_LJCFI, MASK_LJCFI, match_opcode, INSN_ALIAS },
 
 {"ebreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },
 {"ebreak",    "I",   "",    MATCH_EBREAK, MASK_EBREAK, match_opcode, 0 },
