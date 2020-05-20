@@ -130,13 +130,15 @@ const struct riscv_opcode riscv_opcodes[] =
 /* csrw cycle, x0 */
 
 
+/* HCFI instructions */
 {"setpc",     "I",   "",  MATCH_SETPC, MASK_SETPC, match_opcode, INSN_ALIAS },
-{"checkpc",   "I",   "d,s,j",  MATCH_CHECKPC, MASK_CHECKPC, match_opcode, INSN_ALIAS },
-{"setpclabel","I",   "d,s,j",  MATCH_SETPCLABEL, MASK_SETPCLABEL, match_opcode, INSN_ALIAS },
-{"checklabel","I",   "d,s,j",  MATCH_CHECKLABEL, MASK_CHECKLABEL, match_opcode, INSN_ALIAS },
-{"sjcfi",     "I",   "d,s,j",  MATCH_SJCFI, MASK_SJCFI, match_opcode, INSN_ALIAS },
+{"checkpc",   "I",   "u",  MATCH_CHECKPC, MASK_CHECKPC, match_opcode, 0 },
+{"setpclabel","I",   "u",  MATCH_SETPCLABEL, MASK_SETPCLABEL, match_opcode, 0 },
+{"checklabel","I",   "u",  MATCH_CHECKLABEL, MASK_CHECKLABEL, match_opcode, 0 },
+{"sjcfi",     "I",   "u",  MATCH_SJCFI, MASK_SJCFI, match_opcode, 0 },
 {"ljcfi",     "I",   "",  MATCH_LJCFI, MASK_LJCFI, match_opcode, INSN_ALIAS },
 
+/* Base Integer & Compressed */
 {"ebreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },
 {"ebreak",    "I",   "",    MATCH_EBREAK, MASK_EBREAK, match_opcode, 0 },
 {"sbreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },
