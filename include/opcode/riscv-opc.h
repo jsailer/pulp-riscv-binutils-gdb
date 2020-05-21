@@ -249,7 +249,7 @@
 #define MATCH_SETPCLABEL 0xeb
 #define MASK_SETPCLABEL  0xfff
 #define MATCH_CHECKPC 0x16b
-#define MASK_CHECKPC  0xfff
+#define MASK_CHECKPC  0xffffffff
 #define MATCH_CHECKLABEL 0x1eb
 #define MASK_CHECKLABEL  0xfff
 #define MATCH_LJCFI 0x26b
