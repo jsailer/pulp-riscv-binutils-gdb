@@ -138,6 +138,17 @@ const struct riscv_opcode riscv_opcodes[] =
 {"sjcfi",     "I",   "u",  MATCH_SJCFI, MASK_SJCFI, match_opcode, 0 },
 {"ljcfi",     "I",   "",  MATCH_LJCFI, MASK_LJCFI, match_opcode, INSN_ALIAS },
 
+/* "Strategy wihtout tactics ..." instructions */
+{"cfibr",     "I",   "u",  MATCH_CFIBR, MASK_CFIBR, match_opcode, 0 },
+{"cfiret",    "I",   "u",  MATCH_CFIRET, MASK_CFIRET, match_opcode, 0 },
+{"cfiprj",    "I",   "u",  MATCH_CFIPRJ, MASK_CFIPRJ, match_opcode, 0 },
+{"cfiprc",    "I",   "u",  MATCH_CFIPRC, MASK_CFIPRC, match_opcode, 0 },
+{"cfichk",    "I",   "u",  MATCH_CFICHK, MASK_CFICHK, match_opcode, 0 },
+
+/* HAFIX instructions (also cfibr and cfiret are used)*/
+{"cfidel",    "I",   "u",  MATCH_CFIDEL, MASK_CFIDEL, match_opcode, 0 },
+{"cfirec",    "I",   "u",  MATCH_CFIREC, MASK_CFIREC, match_opcode, 0 },
+
 /* Base Integer & Compressed */
 {"ebreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },
 {"ebreak",    "I",   "",    MATCH_EBREAK, MASK_EBREAK, match_opcode, 0 },
