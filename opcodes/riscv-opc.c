@@ -149,6 +149,13 @@ const struct riscv_opcode riscv_opcodes[] =
 {"cfidel",    "I",   "u",  MATCH_CFIDEL, MASK_CFIDEL, match_opcode, 0 },
 {"cfirec",    "I",   "u",  MATCH_CFIREC, MASK_CFIREC, match_opcode, 0 },
 
+/* FIXER instructions */
+{"cfi_call",   "I",   "",  MATCH_CFI_CALL, MASK_CFI_CALL, match_opcode, INSN_ALIAS },
+{"cfi_ret",    "I",   "",  MATCH_CFI_RET, MASK_CFI_RET, match_opcode, INSN_ALIAS },
+{"cfi_fwd",    "I",   "s",  MATCH_CFI_FWD, MASK_CFI_FWD, match_opcode, INSN_ALIAS },
+{"cfi_matld_caller",  "I",   "a",  MATCH_CFI_MATLD_CALLER, MASK_CFI_MATLD_CALLER | MASK_RD, match_opcode, INSN_ALIAS },
+{"cfi_matld_callee",  "I",   "a",  MATCH_CFI_MATLD_CALLEE, MASK_CFI_MATLD_CALLEE | MASK_RD, match_opcode, INSN_ALIAS },
+
 /* Base Integer & Compressed */
 {"ebreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },
 {"ebreak",    "I",   "",    MATCH_EBREAK, MASK_EBREAK, match_opcode, 0 },
