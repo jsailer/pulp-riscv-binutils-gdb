@@ -150,11 +150,20 @@ const struct riscv_opcode riscv_opcodes[] =
 {"cfirec",    "I",   "u",  MATCH_CFIREC, MASK_CFIREC, match_opcode, 0 },
 
 /* FIXER instructions */
-{"cfi_call",   "I",   "",  MATCH_CFI_CALL, MASK_CFI_CALL, match_opcode, INSN_ALIAS },
-{"cfi_ret",    "I",   "",  MATCH_CFI_RET, MASK_CFI_RET, match_opcode, INSN_ALIAS },
-{"cfi_fwd",    "I",   "s",  MATCH_CFI_FWD, MASK_CFI_FWD, match_opcode, INSN_ALIAS },
-{"cfi_matld_caller",  "I",   "a",  MATCH_CFI_MATLD_CALLER, MASK_CFI_MATLD_CALLER | MASK_RD, match_opcode, INSN_ALIAS },
-{"cfi_matld_callee",  "I",   "a",  MATCH_CFI_MATLD_CALLEE, MASK_CFI_MATLD_CALLEE | MASK_RD, match_opcode, INSN_ALIAS },
+{"cficall",   "I",   "",  MATCH_CFICALL, MASK_CFICALL, match_opcode, INSN_ALIAS },
+{"cfifwd",    "I",   "s",  MATCH_CFIFWD, MASK_CFIFWD, match_opcode, INSN_ALIAS },
+{"cfimatldcaller",  "I",   "a",  MATCH_CFIMATLDCALLER, MASK_CFIMATLDCALLER | MASK_RD, match_opcode, INSN_ALIAS },
+{"cfimatldcallee",  "I",   "a",  MATCH_CFIMATLDCALLEE, MASK_CFIMATLDCALLEE | MASK_RD, match_opcode, INSN_ALIAS },
+
+/* CFI Debug instructions */
+{"cfi_dbg_rst_cnt",   "I",   "d",  MATCH_CFI_DBG_RST_CNT, MASK_CFI_DBG_RST_CNT, match_opcode, INSN_ALIAS },
+{"cfi_dbg1",   "I",   "d",  MATCH_CFI_DBG1, MASK_CFI_DBG1, match_opcode, INSN_ALIAS },
+{"cfi_dbg2",   "I",   "d",  MATCH_CFI_DBG2, MASK_CFI_DBG2, match_opcode, INSN_ALIAS },
+{"cfi_dbg3",   "I",   "d",  MATCH_CFI_DBG3, MASK_CFI_DBG3, match_opcode, INSN_ALIAS },
+{"cfi_dbg4",   "I",   "d",  MATCH_CFI_DBG4, MASK_CFI_DBG4, match_opcode, INSN_ALIAS },
+{"cfi_dbg5",   "I",   "d",  MATCH_CFI_DBG5, MASK_CFI_DBG5, match_opcode, INSN_ALIAS },
+{"cfi_dbg6",   "I",   "d",  MATCH_CFI_DBG6, MASK_CFI_DBG6, match_opcode, INSN_ALIAS },
+{"cfi_dbg7",   "I",   "d",  MATCH_CFI_DBG7, MASK_CFI_DBG7, match_opcode, INSN_ALIAS },
 
 /* Base Integer & Compressed */
 {"ebreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },

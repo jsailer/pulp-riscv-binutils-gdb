@@ -1,5 +1,5 @@
 
-#line 3 "ldlex.c"
+#line 3 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -7,8 +7,8 @@
 
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
-#define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 35
+#define YY_FLEX_MINOR_VERSION 6
+#define YY_FLEX_SUBMINOR_VERSION 0
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -46,7 +46,6 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
-typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -54,7 +53,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -84,6 +82,8 @@ typedef unsigned int flex_uint32_t;
 #ifndef UINT32_MAX
 #define UINT32_MAX             (4294967295U)
 #endif
+
+#endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
 
@@ -141,7 +141,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -167,6 +175,7 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_LAST_MATCH 2
 
     #define YY_LESS_LINENO(n)
+    #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -201,7 +210,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	yy_size_t yy_n_chars;
+	int yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -271,7 +280,7 @@ static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
 
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
+static int yy_n_chars;		/* number of characters read into yy_ch_buf */
 yy_size_t yyleng;
 
 /* Points to current character in buffer. */
@@ -332,7 +341,7 @@ void yyfree (void *  );
 
 /* Begin user sect3 */
 
-#define yywrap(n) 1
+#define yywrap() (/*CONSTCOND*/1)
 #define YY_SKIP_YYWRAP
 
 typedef unsigned char YY_CHAR;
@@ -346,11 +355,17 @@ extern int yylineno;
 int yylineno = 1;
 
 extern char *yytext;
+#ifdef yytext_ptr
+#undef yytext_ptr
+#endif
 #define yytext_ptr yytext
 
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
 static int yy_get_next_buffer (void );
+#if defined(__GNUC__) && __GNUC__ >= 3
+__attribute__((__noreturn__))
+#endif
 static void yy_fatal_error (yyconst char msg[]  );
 
 /* Done after the current pattern has been matched and before the
@@ -358,7 +373,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	yyleng = (yy_size_t) (yy_cp - yy_bp); \
+	yyleng = (size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -571,7 +586,7 @@ static yyconst flex_int16_t yy_accept[1775] =
       174,   84,   84,    0
     } ;
 
-static yyconst flex_int32_t yy_ec[256] =
+static yyconst YY_CHAR yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
@@ -603,7 +618,7 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[83] =
+static yyconst YY_CHAR yy_meta[83] =
     {   0,
         1,    1,    2,    3,    1,    1,    4,    1,    1,    1,
         1,    3,    5,    6,    7,    8,    9,   10,   10,   10,
@@ -616,7 +631,7 @@ static yyconst flex_int32_t yy_meta[83] =
         1,    9
     } ;
 
-static yyconst flex_int16_t yy_base[1807] =
+static yyconst flex_uint16_t yy_base[1807] =
     {   0,
         0,    0,    0,    0,   82,  163,  244,    0,  326,    0,
       408,  489,  570,    0,  112,  114,  652,  734,  816,  898,
@@ -1022,7 +1037,7 @@ static yyconst flex_int16_t yy_def[1807] =
      1774, 1774, 1774, 1774, 1774, 1774
     } ;
 
-static yyconst flex_int16_t yy_nxt[2940] =
+static yyconst flex_uint16_t yy_nxt[2940] =
     {   0,
        23,   24,   25,   26,   27,   23,   28,   29,   30,   31,
        32,   33,   34,   35,   36,   37,   38,   39,   40,   40,
@@ -1690,8 +1705,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "ldlex.l"
-#line 4 "ldlex.l"
+#line 1 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
+#line 4 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 
 /* Copyright (C) 1991-2017 Free Software Foundation, Inc.
    Written by Steve Chamberlain of Cygnus Support.
@@ -1786,7 +1801,7 @@ static void lex_warn_invalid (char *where, char *what);
 
 
 
-#line 1790 "ldlex.c"
+#line 1805 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.c"
 
 #define INITIAL 0
 #define SCRIPT 1
@@ -1828,11 +1843,11 @@ void yyset_extra (YY_EXTRA_TYPE user_defined  );
 
 FILE *yyget_in (void );
 
-void yyset_in  (FILE * in_str  );
+void yyset_in  (FILE * _in_str  );
 
 FILE *yyget_out (void );
 
-void yyset_out  (FILE * out_str  );
+void yyset_out  (FILE * _out_str  );
 
 yy_size_t yyget_leng (void );
 
@@ -1840,7 +1855,7 @@ char *yyget_text (void );
 
 int yyget_lineno (void );
 
-void yyset_lineno (int line_number  );
+void yyset_lineno (int _line_number  );
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1852,6 +1867,10 @@ extern "C" int yywrap (void );
 #else
 extern int yywrap (void );
 #endif
+#endif
+
+#ifndef YY_NO_UNPUT
+    
 #endif
 
 #ifndef yytext_ptr
@@ -1874,7 +1893,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1882,7 +1906,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO fwrite( yytext, yyleng, 1, yyout )
+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -1893,7 +1917,7 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		yy_size_t n; \
+		size_t n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1961,7 +1985,7 @@ extern int yylex (void);
 
 /* Code executed at the end of each rule. */
 #ifndef YY_BREAK
-#define YY_BREAK break;
+#define YY_BREAK /*LINTED*/break;
 #endif
 
 #define YY_RULE_SETUP \
@@ -1971,31 +1995,10 @@ extern int yylex (void);
  */
 YY_DECL
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp, *yy_bp;
-	register int yy_act;
+	yy_state_type yy_current_state;
+	char *yy_cp, *yy_bp;
+	int yy_act;
     
-#line 116 "ldlex.l"
-
-
-  if (parser_input != input_selected)
-    {
-      /* The first token of the input determines the initial parser state.  */
-      input_type t = parser_input;
-      parser_input = input_selected;
-      switch (t)
-	{
-	case input_script: return INPUT_SCRIPT; break;
-	case input_mri_script: return INPUT_MRI_SCRIPT; break;
-	case input_version_script: return INPUT_VERSION_SCRIPT; break;
-	case input_dynamic_list: return INPUT_DYNAMIC_LIST; break;
-	case input_defsym: return INPUT_DEFSYM; break;
-	default: abort ();
-	}
-    }
-
-#line 1998 "ldlex.c"
-
 	if ( !(yy_init) )
 		{
 		(yy_init) = 1;
@@ -2022,7 +2025,29 @@ YY_DECL
 		yy_load_buffer_state( );
 		}
 
-	while ( 1 )		/* loops until end-of-file is reached */
+	{
+#line 116 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
+
+
+  if (parser_input != input_selected)
+    {
+      /* The first token of the input determines the initial parser state.  */
+      input_type t = parser_input;
+      parser_input = input_selected;
+      switch (t)
+	{
+	case input_script: return INPUT_SCRIPT; break;
+	case input_mri_script: return INPUT_MRI_SCRIPT; break;
+	case input_version_script: return INPUT_VERSION_SCRIPT; break;
+	case input_dynamic_list: return INPUT_DYNAMIC_LIST; break;
+	case input_defsym: return INPUT_DEFSYM; break;
+	default: abort ();
+	}
+    }
+
+#line 2049 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.c"
+
+	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
 		yy_cp = (yy_c_buf_p);
 
@@ -2038,7 +2063,7 @@ YY_DECL
 yy_match:
 		do
 			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
+			YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
 			if ( yy_accept[yy_current_state] )
 				{
 				(yy_last_accepting_state) = yy_current_state;
@@ -2079,32 +2104,32 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 134 "ldlex.l"
+#line 134 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { comment (); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 137 "ldlex.l"
+#line 137 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('-');}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 138 "ldlex.l"
+#line 138 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('+');}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 139 "ldlex.l"
+#line 139 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { yylval.name = xstrdup (yytext); return NAME; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 140 "ldlex.l"
+#line 140 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('='); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 142 "ldlex.l"
+#line 142 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
   				yylval.integer = bfd_scan_vma (yytext + 1, 0, 16);
 				yylval.bigint.str = NULL;
@@ -2113,7 +2138,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 148 "ldlex.l"
+#line 148 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 				   int ibase ;
 				   switch (yytext[yyleng - 1]) {
@@ -2142,7 +2167,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 173 "ldlex.l"
+#line 173 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 				  char *s = yytext;
 				  int ibase = 0;
@@ -2175,829 +2200,829 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 202 "ldlex.l"
+#line 202 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(']');}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 203 "ldlex.l"
+#line 203 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('[');}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 204 "ldlex.l"
+#line 204 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LSHIFTEQ);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 205 "ldlex.l"
+#line 205 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(RSHIFTEQ);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 206 "ldlex.l"
+#line 206 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(OROR);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 207 "ldlex.l"
+#line 207 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(EQ);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 208 "ldlex.l"
+#line 208 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NE);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 209 "ldlex.l"
+#line 209 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(GE);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 210 "ldlex.l"
+#line 210 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LE);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 211 "ldlex.l"
+#line 211 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LSHIFT);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 212 "ldlex.l"
+#line 212 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(RSHIFT);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 213 "ldlex.l"
+#line 213 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(PLUSEQ);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 214 "ldlex.l"
+#line 214 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(MINUSEQ);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 215 "ldlex.l"
+#line 215 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(MULTEQ);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 216 "ldlex.l"
+#line 216 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(DIVEQ);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 217 "ldlex.l"
+#line 217 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ANDEQ);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 218 "ldlex.l"
+#line 218 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(OREQ);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 219 "ldlex.l"
+#line 219 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ANDAND);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 220 "ldlex.l"
+#line 220 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('>');}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 221 "ldlex.l"
+#line 221 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(',');}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 222 "ldlex.l"
+#line 222 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('&');}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 223 "ldlex.l"
+#line 223 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('|');}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 224 "ldlex.l"
+#line 224 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('~');}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 225 "ldlex.l"
+#line 225 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('!');}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 226 "ldlex.l"
+#line 226 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('?');}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 227 "ldlex.l"
+#line 227 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('*');}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 228 "ldlex.l"
+#line 228 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('+');}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 229 "ldlex.l"
+#line 229 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('-');}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 230 "ldlex.l"
+#line 230 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('/');}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 231 "ldlex.l"
+#line 231 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('%');}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 232 "ldlex.l"
+#line 232 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('<');}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 233 "ldlex.l"
+#line 233 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('=');}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 234 "ldlex.l"
+#line 234 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('}') ; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 235 "ldlex.l"
+#line 235 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('{'); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 236 "ldlex.l"
+#line 236 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(')');}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 237 "ldlex.l"
+#line 237 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN('(');}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 238 "ldlex.l"
+#line 238 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(':'); }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 239 "ldlex.l"
+#line 239 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(';');}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 240 "ldlex.l"
+#line 240 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(MEMORY);}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 241 "ldlex.l"
+#line 241 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(REGION_ALIAS);}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 242 "ldlex.l"
+#line 242 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LD_FEATURE);}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 243 "ldlex.l"
+#line 243 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ORIGIN);}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 244 "ldlex.l"
+#line 244 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(VERSIONK);}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 245 "ldlex.l"
+#line 245 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(BLOCK);}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 246 "ldlex.l"
+#line 246 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(BIND);}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 247 "ldlex.l"
+#line 247 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LENGTH);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 248 "ldlex.l"
+#line 248 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGN_K);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 249 "ldlex.l"
+#line 249 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(DATA_SEGMENT_ALIGN);}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 250 "ldlex.l"
+#line 250 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(DATA_SEGMENT_RELRO_END);}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 251 "ldlex.l"
+#line 251 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(DATA_SEGMENT_END);}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 252 "ldlex.l"
+#line 252 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ADDR);}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 253 "ldlex.l"
+#line 253 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LOADADDR);}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 254 "ldlex.l"
+#line 254 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGNOF); }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 255 "ldlex.l"
+#line 255 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(MAX_K); }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 256 "ldlex.l"
+#line 256 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(MIN_K); }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 257 "ldlex.l"
+#line 257 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LOG2CEIL); }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 258 "ldlex.l"
+#line 258 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ASSERT_K); }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 259 "ldlex.l"
+#line 259 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ENTRY);}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 260 "ldlex.l"
+#line 260 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(EXTERN);}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 261 "ldlex.l"
+#line 261 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NEXT);}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 262 "ldlex.l"
+#line 262 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SIZEOF_HEADERS);}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 263 "ldlex.l"
+#line 263 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SIZEOF_HEADERS);}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 264 "ldlex.l"
+#line 264 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SEGMENT_START);}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 265 "ldlex.l"
+#line 265 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(MAP);}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 266 "ldlex.l"
+#line 266 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SIZEOF);}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 267 "ldlex.l"
+#line 267 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(TARGET_K);}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 268 "ldlex.l"
+#line 268 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SEARCH_DIR);}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 269 "ldlex.l"
+#line 269 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(OUTPUT);}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 270 "ldlex.l"
+#line 270 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(INPUT);}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 271 "ldlex.l"
+#line 271 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(GROUP);}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 272 "ldlex.l"
+#line 272 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(AS_NEEDED);}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 273 "ldlex.l"
+#line 273 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(DEFINED);}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 274 "ldlex.l"
+#line 274 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(CREATE_OBJECT_SYMBOLS);}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 275 "ldlex.l"
+#line 275 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( CONSTRUCTORS);}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 276 "ldlex.l"
+#line 276 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(FORCE_COMMON_ALLOCATION);}
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 277 "ldlex.l"
+#line 277 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(INHIBIT_COMMON_ALLOCATION);}
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 278 "ldlex.l"
+#line 278 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SECTIONS);}
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 279 "ldlex.l"
+#line 279 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(INSERT_K);}
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 280 "ldlex.l"
+#line 280 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(AFTER);}
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 281 "ldlex.l"
+#line 281 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(BEFORE);}
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 282 "ldlex.l"
+#line 282 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(FILL);}
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 283 "ldlex.l"
+#line 283 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(STARTUP);}
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 284 "ldlex.l"
+#line 284 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(OUTPUT_FORMAT);}
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 285 "ldlex.l"
+#line 285 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( OUTPUT_ARCH);}
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 286 "ldlex.l"
+#line 286 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(HLL);}
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 287 "ldlex.l"
+#line 287 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SYSLIB);}
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 288 "ldlex.l"
+#line 288 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(FLOAT);}
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 289 "ldlex.l"
+#line 289 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( QUAD);}
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 290 "ldlex.l"
+#line 290 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( SQUAD);}
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 291 "ldlex.l"
+#line 291 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( LONG);}
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 292 "ldlex.l"
+#line 292 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( SHORT);}
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 293 "ldlex.l"
+#line 293 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( BYTE);}
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 294 "ldlex.l"
+#line 294 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NOFLOAT);}
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 295 "ldlex.l"
+#line 295 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NOCROSSREFS);}
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 296 "ldlex.l"
+#line 296 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NOCROSSREFS_TO);}
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 297 "ldlex.l"
+#line 297 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(OVERLAY); }
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 298 "ldlex.l"
+#line 298 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SORT_BY_NAME); }
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 299 "ldlex.l"
+#line 299 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SORT_BY_ALIGNMENT); }
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 300 "ldlex.l"
+#line 300 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SORT_BY_NAME); }
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 301 "ldlex.l"
+#line 301 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SORT_BY_INIT_PRIORITY); }
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 302 "ldlex.l"
+#line 302 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SORT_NONE); }
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 303 "ldlex.l"
+#line 303 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NOLOAD);}
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 304 "ldlex.l"
+#line 304 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(DSECT);}
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 305 "ldlex.l"
+#line 305 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(COPY);}
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 306 "ldlex.l"
+#line 306 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(INFO);}
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 307 "ldlex.l"
+#line 307 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(OVERLAY);}
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 308 "ldlex.l"
+#line 308 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ONLY_IF_RO); }
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
-#line 309 "ldlex.l"
+#line 309 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ONLY_IF_RW); }
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 310 "ldlex.l"
+#line 310 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SPECIAL); }
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 311 "ldlex.l"
+#line 311 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ORIGIN);}
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 312 "ldlex.l"
+#line 312 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ORIGIN);}
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
-#line 313 "ldlex.l"
+#line 313 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( LENGTH);}
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
-#line 314 "ldlex.l"
+#line 314 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN( LENGTH);}
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
-#line 315 "ldlex.l"
+#line 315 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(INPUT_SECTION_FLAGS); }
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 316 "ldlex.l"
+#line 316 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(INCLUDE);}
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 317 "ldlex.l"
+#line 317 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN (PHDRS); }
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 318 "ldlex.l"
+#line 318 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(AT);}
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 319 "ldlex.l"
+#line 319 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGN_WITH_INPUT);}
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 320 "ldlex.l"
+#line 320 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SUBALIGN);}
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
-#line 321 "ldlex.l"
+#line 321 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(HIDDEN); }
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 322 "ldlex.l"
+#line 322 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(PROVIDE); }
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 323 "ldlex.l"
+#line 323 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(PROVIDE_HIDDEN); }
 	YY_BREAK
 case 131:
 YY_RULE_SETUP
-#line 324 "ldlex.l"
+#line 324 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(KEEP); }
 	YY_BREAK
 case 132:
 YY_RULE_SETUP
-#line 325 "ldlex.l"
+#line 325 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(EXCLUDE_FILE); }
 	YY_BREAK
 case 133:
 YY_RULE_SETUP
-#line 326 "ldlex.l"
+#line 326 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(CONSTANT);}
 	YY_BREAK
 case 134:
 /* rule 134 can match eol */
 YY_RULE_SETUP
-#line 327 "ldlex.l"
+#line 327 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { ++ lineno; }
 	YY_BREAK
 case 135:
 /* rule 135 can match eol */
 YY_RULE_SETUP
-#line 328 "ldlex.l"
+#line 328 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { ++ lineno;  RTOKEN(NEWLINE); }
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
-#line 329 "ldlex.l"
+#line 329 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { /* Mri comment line */ }
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
-#line 330 "ldlex.l"
+#line 330 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { /* Mri comment line */ }
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
-#line 331 "ldlex.l"
+#line 331 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ENDWORD); }
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
-#line 332 "ldlex.l"
+#line 332 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGNMOD);}
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
-#line 333 "ldlex.l"
+#line 333 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGN_K);}
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
-#line 334 "ldlex.l"
+#line 334 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(CHIP); }
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
-#line 335 "ldlex.l"
+#line 335 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(BASE); }
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
-#line 336 "ldlex.l"
+#line 336 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIAS); }
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
-#line 337 "ldlex.l"
+#line 337 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(TRUNCATE); }
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
-#line 338 "ldlex.l"
+#line 338 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LOAD); }
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
-#line 339 "ldlex.l"
+#line 339 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(PUBLIC); }
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
-#line 340 "ldlex.l"
+#line 340 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ORDER); }
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
-#line 341 "ldlex.l"
+#line 341 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NAMEWORD); }
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
-#line 342 "ldlex.l"
+#line 342 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(FORMAT); }
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
-#line 343 "ldlex.l"
+#line 343 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(CASE); }
 	YY_BREAK
 case 151:
 YY_RULE_SETUP
-#line 344 "ldlex.l"
+#line 344 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(START); }
 	YY_BREAK
 case 152:
 YY_RULE_SETUP
-#line 345 "ldlex.l"
+#line 345 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LIST); /* LIST and ignore to end of line */ }
 	YY_BREAK
 case 153:
 YY_RULE_SETUP
-#line 346 "ldlex.l"
+#line 346 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SECT); }
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
-#line 347 "ldlex.l"
+#line 347 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ABSOLUTE); }
 	YY_BREAK
 case 155:
 YY_RULE_SETUP
-#line 348 "ldlex.l"
+#line 348 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ENDWORD); }
 	YY_BREAK
 case 156:
 YY_RULE_SETUP
-#line 349 "ldlex.l"
+#line 349 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGNMOD);}
 	YY_BREAK
 case 157:
 YY_RULE_SETUP
-#line 350 "ldlex.l"
+#line 350 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIGN_K);}
 	YY_BREAK
 case 158:
 YY_RULE_SETUP
-#line 351 "ldlex.l"
+#line 351 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(CHIP); }
 	YY_BREAK
 case 159:
 YY_RULE_SETUP
-#line 352 "ldlex.l"
+#line 352 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(BASE); }
 	YY_BREAK
 case 160:
 YY_RULE_SETUP
-#line 353 "ldlex.l"
+#line 353 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ALIAS); }
 	YY_BREAK
 case 161:
 YY_RULE_SETUP
-#line 354 "ldlex.l"
+#line 354 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(TRUNCATE); }
 	YY_BREAK
 case 162:
 YY_RULE_SETUP
-#line 355 "ldlex.l"
+#line 355 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LOAD); }
 	YY_BREAK
 case 163:
 YY_RULE_SETUP
-#line 356 "ldlex.l"
+#line 356 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(PUBLIC); }
 	YY_BREAK
 case 164:
 YY_RULE_SETUP
-#line 357 "ldlex.l"
+#line 357 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ORDER); }
 	YY_BREAK
 case 165:
 YY_RULE_SETUP
-#line 358 "ldlex.l"
+#line 358 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(NAMEWORD); }
 	YY_BREAK
 case 166:
 YY_RULE_SETUP
-#line 359 "ldlex.l"
+#line 359 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(FORMAT); }
 	YY_BREAK
 case 167:
 YY_RULE_SETUP
-#line 360 "ldlex.l"
+#line 360 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(CASE); }
 	YY_BREAK
 case 168:
 YY_RULE_SETUP
-#line 361 "ldlex.l"
+#line 361 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(EXTERN); }
 	YY_BREAK
 case 169:
 YY_RULE_SETUP
-#line 362 "ldlex.l"
+#line 362 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(START); }
 	YY_BREAK
 case 170:
 YY_RULE_SETUP
-#line 363 "ldlex.l"
+#line 363 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LIST); /* LIST and ignore to end of line */ }
 	YY_BREAK
 case 171:
 YY_RULE_SETUP
-#line 364 "ldlex.l"
+#line 364 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(SECT); }
 	YY_BREAK
 case 172:
 YY_RULE_SETUP
-#line 365 "ldlex.l"
+#line 365 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(ABSOLUTE); }
 	YY_BREAK
 case 173:
 YY_RULE_SETUP
-#line 367 "ldlex.l"
+#line 367 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 /* Filename without commas, needed to parse mri stuff */
 				 yylval.name = xstrdup (yytext);
@@ -3006,7 +3031,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 174:
 YY_RULE_SETUP
-#line 374 "ldlex.l"
+#line 374 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 				 yylval.name = xstrdup (yytext);
 				  return NAME;
@@ -3014,7 +3039,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 175:
 YY_RULE_SETUP
-#line 378 "ldlex.l"
+#line 378 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 /* Filename to be prefixed by --sysroot or when non-sysrooted, nothing.  */
 				 yylval.name = xstrdup (yytext);
@@ -3023,7 +3048,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 176:
 YY_RULE_SETUP
-#line 383 "ldlex.l"
+#line 383 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 				  yylval.name = xstrdup (yytext + 2);
 				  return LNAME;
@@ -3031,7 +3056,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 177:
 YY_RULE_SETUP
-#line 387 "ldlex.l"
+#line 387 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 				 yylval.name = xstrdup (yytext);
 				  return NAME;
@@ -3039,7 +3064,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 178:
 YY_RULE_SETUP
-#line 391 "ldlex.l"
+#line 391 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 				  yylval.name = xstrdup (yytext + 2);
 				  return LNAME;
@@ -3047,7 +3072,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 179:
 YY_RULE_SETUP
-#line 395 "ldlex.l"
+#line 395 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 		/* Annoyingly, this pattern can match comments, and we have
 		   longest match issues to consider.  So if the first two
@@ -3068,7 +3093,7 @@ YY_RULE_SETUP
 case 180:
 /* rule 180 can match eol */
 YY_RULE_SETUP
-#line 412 "ldlex.l"
+#line 412 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
 					/* No matter the state, quotes
 					   give what's inside.  */
@@ -3086,54 +3111,54 @@ YY_RULE_SETUP
 case 181:
 /* rule 181 can match eol */
 YY_RULE_SETUP
-#line 425 "ldlex.l"
+#line 425 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { lineno++;}
 	YY_BREAK
 case 182:
 YY_RULE_SETUP
-#line 426 "ldlex.l"
+#line 426 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { }
 	YY_BREAK
 case 183:
 YY_RULE_SETUP
-#line 428 "ldlex.l"
+#line 428 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { return *yytext; }
 	YY_BREAK
 case 184:
 YY_RULE_SETUP
-#line 430 "ldlex.l"
+#line 430 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(GLOBAL); }
 	YY_BREAK
 case 185:
 YY_RULE_SETUP
-#line 432 "ldlex.l"
+#line 432 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(LOCAL); }
 	YY_BREAK
 case 186:
 YY_RULE_SETUP
-#line 434 "ldlex.l"
+#line 434 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { RTOKEN(EXTERN); }
 	YY_BREAK
 case 187:
 YY_RULE_SETUP
-#line 436 "ldlex.l"
+#line 436 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { yylval.name = xstrdup (yytext);
 				  return VERS_IDENTIFIER; }
 	YY_BREAK
 case 188:
 YY_RULE_SETUP
-#line 439 "ldlex.l"
+#line 439 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { yylval.name = xstrdup (yytext);
 				  return VERS_TAG; }
 	YY_BREAK
 case 189:
 YY_RULE_SETUP
-#line 442 "ldlex.l"
+#line 442 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { BEGIN(VERS_SCRIPT); return *yytext; }
 	YY_BREAK
 case 190:
 YY_RULE_SETUP
-#line 444 "ldlex.l"
+#line 444 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { BEGIN(VERS_NODE);
 				  vers_node_nesting = 0;
 				  return *yytext;
@@ -3141,17 +3166,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 191:
 YY_RULE_SETUP
-#line 448 "ldlex.l"
+#line 448 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { return *yytext; }
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
-#line 449 "ldlex.l"
+#line 449 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { vers_node_nesting++; return *yytext; }
 	YY_BREAK
 case 193:
 YY_RULE_SETUP
-#line 450 "ldlex.l"
+#line 450 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { if (--vers_node_nesting < 0)
 				    BEGIN(VERS_SCRIPT);
 				  return *yytext;
@@ -3160,17 +3185,17 @@ YY_RULE_SETUP
 case 194:
 /* rule 194 can match eol */
 YY_RULE_SETUP
-#line 455 "ldlex.l"
+#line 455 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { lineno++; }
 	YY_BREAK
 case 195:
 YY_RULE_SETUP
-#line 457 "ldlex.l"
+#line 457 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { /* Eat up comments */ }
 	YY_BREAK
 case 196:
 YY_RULE_SETUP
-#line 459 "ldlex.l"
+#line 459 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 { /* Eat up whitespace */ }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
@@ -3183,7 +3208,7 @@ case YY_STATE_EOF(MRI):
 case YY_STATE_EOF(VERS_START):
 case YY_STATE_EOF(VERS_SCRIPT):
 case YY_STATE_EOF(VERS_NODE):
-#line 461 "ldlex.l"
+#line 461 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 {
   include_stack_ptr--;
   if (include_stack_ptr == 0)
@@ -3202,20 +3227,20 @@ case YY_STATE_EOF(VERS_NODE):
 	YY_BREAK
 case 197:
 YY_RULE_SETUP
-#line 477 "ldlex.l"
+#line 477 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 lex_warn_invalid (" in script", yytext);
 	YY_BREAK
 case 198:
 YY_RULE_SETUP
-#line 478 "ldlex.l"
+#line 478 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 lex_warn_invalid (" in expression", yytext);
 	YY_BREAK
 case 199:
 YY_RULE_SETUP
-#line 480 "ldlex.l"
+#line 480 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 ECHO;
 	YY_BREAK
-#line 3219 "ldlex.c"
+#line 3244 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -3344,6 +3369,7 @@ ECHO;
 			"fatal flex scanner internal error--no action found" );
 	} /* end of action switch */
 		} /* end of scanning one token */
+	} /* end of user's declarations */
 } /* end of yylex */
 
 /* yy_get_next_buffer - try to read in a new buffer
@@ -3355,9 +3381,9 @@ ECHO;
  */
 static int yy_get_next_buffer (void)
 {
-    	register char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
-	register char *source = (yytext_ptr);
-	register int number_to_move, i;
+    	char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
+	char *source = (yytext_ptr);
+	yy_size_t number_to_move, i;
 	int ret_val;
 
 	if ( (yy_c_buf_p) > &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars) + 1] )
@@ -3386,7 +3412,7 @@ static int yy_get_next_buffer (void)
 	/* Try to read more data. */
 
 	/* First move last chars to start of buffer. */
-	number_to_move = (int) ((yy_c_buf_p) - (yytext_ptr)) - 1;
+	number_to_move = (yy_size_t) ((yy_c_buf_p) - (yytext_ptr)) - 1;
 
 	for ( i = 0; i < number_to_move; ++i )
 		*(dest++) = *(source++);
@@ -3406,7 +3432,7 @@ static int yy_get_next_buffer (void)
 			{ /* Not enough room in the buffer - grow it. */
 
 			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
+			YY_BUFFER_STATE b = YY_CURRENT_BUFFER_LVALUE;
 
 			int yy_c_buf_p_offset =
 				(int) ((yy_c_buf_p) - b->yy_ch_buf);
@@ -3468,9 +3494,9 @@ static int yy_get_next_buffer (void)
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
 
-	if ((yy_size_t) ((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+	if ((int) ((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
-		yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
 		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size  );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
 			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
@@ -3489,14 +3515,14 @@ static int yy_get_next_buffer (void)
 
     static yy_state_type yy_get_previous_state (void)
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp;
+	yy_state_type yy_current_state;
+	char *yy_cp;
     
 	yy_current_state = (yy_start);
 
 	for ( yy_cp = (yytext_ptr) + YY_MORE_ADJ; yy_cp < (yy_c_buf_p); ++yy_cp )
 		{
-		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
+		YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
 		if ( yy_accept[yy_current_state] )
 			{
 			(yy_last_accepting_state) = yy_current_state;
@@ -3521,10 +3547,10 @@ static int yy_get_next_buffer (void)
  */
     static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state )
 {
-	register int yy_is_jam;
-    	register char *yy_cp = (yy_c_buf_p);
+	int yy_is_jam;
+    	char *yy_cp = (yy_c_buf_p);
 
-	register YY_CHAR yy_c = 1;
+	YY_CHAR yy_c = 1;
 	if ( yy_accept[yy_current_state] )
 		{
 		(yy_last_accepting_state) = yy_current_state;
@@ -3539,8 +3565,12 @@ static int yy_get_next_buffer (void)
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 1774);
 
-	return yy_is_jam ? 0 : yy_current_state;
+		return yy_is_jam ? 0 : yy_current_state;
 }
+
+#ifndef YY_NO_UNPUT
+
+#endif
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
@@ -3590,7 +3620,7 @@ static int yy_get_next_buffer (void)
 				case EOB_ACT_END_OF_FILE:
 					{
 					if ( yywrap( ) )
-						return 0;
+						return EOF;
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
@@ -3691,7 +3721,7 @@ static void yy_load_buffer_state  (void)
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
-	b->yy_buf_size = size;
+	b->yy_buf_size = (yy_size_t)size;
 
 	/* yy_ch_buf has to be 2 characters longer than the size given because
 	 * we need to put in 2 end-of-buffer characters.
@@ -3726,10 +3756,6 @@ static void yy_load_buffer_state  (void)
 	yyfree((void *) b  );
 }
 
-#ifndef __cplusplus
-extern int isatty (int );
-#endif /* __cplusplus */
-    
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
  * such as during a yyrestart() or at EOF.
@@ -3850,7 +3876,7 @@ static void yyensure_buffer_stack (void)
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
-		num_to_alloc = 1;
+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
 								(num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
@@ -3867,7 +3893,7 @@ static void yyensure_buffer_stack (void)
 	if ((yy_buffer_stack_top) >= ((yy_buffer_stack_max)) - 1){
 
 		/* Increase the buffer to prepare for a possible push. */
-		int grow_size = 8 /* arbitrary grow size */;
+		yy_size_t grow_size = 8 /* arbitrary grow size */;
 
 		num_to_alloc = (yy_buffer_stack_max) + grow_size;
 		(yy_buffer_stack) = (struct yy_buffer_state**)yyrealloc
@@ -3934,8 +3960,8 @@ YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
  * scan from a @e copy of @a bytes.
- * @param bytes the byte buffer to scan
- * @param len the number of bytes in the buffer pointed to by @a bytes.
+ * @param yybytes the byte buffer to scan
+ * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
@@ -3943,7 +3969,8 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len 
 {
 	YY_BUFFER_STATE b;
 	char *buf;
-	yy_size_t n, i;
+	yy_size_t n;
+	yy_size_t i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
@@ -3974,7 +4001,7 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len 
 
 static void yy_fatal_error (yyconst char* msg )
 {
-    	(void) fprintf( stderr, "%s\n", msg );
+			(void) fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
 }
 
@@ -4040,29 +4067,29 @@ char *yyget_text  (void)
 }
 
 /** Set the current line number.
- * @param line_number
+ * @param _line_number line number
  * 
  */
-void yyset_lineno (int  line_number )
+void yyset_lineno (int  _line_number )
 {
     
-    yylineno = line_number;
+    yylineno = _line_number;
 }
 
 /** Set the input stream. This does not discard the current
  * input buffer.
- * @param in_str A readable stream.
+ * @param _in_str A readable stream.
  * 
  * @see yy_switch_to_buffer
  */
-void yyset_in (FILE *  in_str )
+void yyset_in (FILE *  _in_str )
 {
-        yyin = in_str ;
+        yyin = _in_str ;
 }
 
-void yyset_out (FILE *  out_str )
+void yyset_out (FILE *  _out_str )
 {
-        yyout = out_str ;
+        yyout = _out_str ;
 }
 
 int yyget_debug  (void)
@@ -4070,9 +4097,9 @@ int yyget_debug  (void)
         return yy_flex_debug;
 }
 
-void yyset_debug (int  bdebug )
+void yyset_debug (int  _bdebug )
 {
-        yy_flex_debug = bdebug ;
+        yy_flex_debug = _bdebug ;
 }
 
 static int yy_init_globals (void)
@@ -4132,7 +4159,8 @@ int yylex_destroy  (void)
 #ifndef yytext_ptr
 static void yy_flex_strncpy (char* s1, yyconst char * s2, int n )
 {
-	register int i;
+		
+	int i;
 	for ( i = 0; i < n; ++i )
 		s1[i] = s2[i];
 }
@@ -4141,7 +4169,7 @@ static void yy_flex_strncpy (char* s1, yyconst char * s2, int n )
 #ifdef YY_NEED_STRLEN
 static int yy_flex_strlen (yyconst char * s )
 {
-	register int n;
+	int n;
 	for ( n = 0; s[n]; ++n )
 		;
 
@@ -4151,11 +4179,12 @@ static int yy_flex_strlen (yyconst char * s )
 
 void *yyalloc (yy_size_t  size )
 {
-	return (void *) malloc( size );
+			return (void *) malloc( size );
 }
 
 void *yyrealloc  (void * ptr, yy_size_t  size )
 {
+		
 	/* The cast to (char *) in the following accommodates both
 	 * implementations that use char* generic pointers, and those
 	 * that use void* generic pointers.  It works with the latter
@@ -4168,12 +4197,12 @@ void *yyrealloc  (void * ptr, yy_size_t  size )
 
 void yyfree (void * ptr )
 {
-	free( (char *) ptr );	/* see yyrealloc() for (char *) cast */
+			free( (char *) ptr );	/* see yyrealloc() for (char *) cast */
 }
 
 #define YYTABLES_NAME "yytables"
 
-#line 480 "ldlex.l"
+#line 480 "/home/mario/pulp-riscv-gnu-toolchain/riscv-binutils-gdb/ld/ldlex.l"
 
 
 
