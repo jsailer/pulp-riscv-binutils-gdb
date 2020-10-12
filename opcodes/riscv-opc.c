@@ -138,7 +138,7 @@ const struct riscv_opcode riscv_opcodes[] =
 {"sjcfi",     "I",   "u",  MATCH_SJCFI, MASK_SJCFI, match_opcode, 0 },
 {"ljcfi",     "I",   "",  MATCH_LJCFI, MASK_LJCFI, match_opcode, INSN_ALIAS },
 
-/* "Strategy wihtout tactics ..." instructions */
+/* HECFI instructions */
 {"cfibr",     "I",   "u",  MATCH_CFIBR, MASK_CFIBR, match_opcode, 0 },
 {"cfiret",    "I",   "u",  MATCH_CFIRET, MASK_CFIRET, match_opcode, 0 },
 {"cfiprj",    "I",   "u",  MATCH_CFIPRJ, MASK_CFIPRJ, match_opcode, 0 },
@@ -155,15 +155,27 @@ const struct riscv_opcode riscv_opcodes[] =
 {"cfimatldcaller",  "I",   "a",  MATCH_CFIMATLDCALLER, MASK_CFIMATLDCALLER | MASK_RD, match_opcode, INSN_ALIAS },
 {"cfimatldcallee",  "I",   "a",  MATCH_CFIMATLDCALLEE, MASK_CFIMATLDCALLEE | MASK_RD, match_opcode, INSN_ALIAS },
 
+/* EXCEC instructions */
+{"cficall_i",  "I",   "a",  MATCH_CFICALL_I, MASK_CFICALL_I | MASK_RD, match_opcode, INSN_ALIAS },
+{"cfijump_i",  "I",   "a",  MATCH_CFIJUMP_I, MASK_CFIJUMP_I | MASK_RD, match_opcode, INSN_ALIAS },
+{"cficheck",   "I",   "a",  MATCH_CFICHECK, MASK_CFICHECK | MASK_RD, match_opcode, INSN_ALIAS },
+{"cfisetjmp",  "I",   "a",  MATCH_CFISETJMP, MASK_CFISETJMP | MASK_RD, match_opcode, INSN_ALIAS },
+{"cfilongjmp", "I",   "",  MATCH_CFILONGJMP, MASK_CFILONGJMP, match_opcode, INSN_ALIAS },
+
+/* ICET instructions */
+{"cfiendbranch","I",   "",  MATCH_CFIENDBRANCH, MASK_CFIENDBRANCH, match_opcode, INSN_ALIAS },
+
+/* Common CFI instructions */
+{"cfi_reset",  "I",   "",  MATCH_CFI_RESET, MASK_CFI_RESET, match_opcode, INSN_ALIAS },
+{"cfi_enable", "I",   "",  MATCH_CFI_ENABLE, MASK_CFI_ENABLE, match_opcode, INSN_ALIAS },
+{"cfi_disable","I",   "",  MATCH_CFI_DISABLE, MASK_CFI_DISABLE, match_opcode, INSN_ALIAS },
+
 /* CFI Debug instructions */
 {"cfi_dbg_rst_cnt",   "I",   "d",  MATCH_CFI_DBG_RST_CNT, MASK_CFI_DBG_RST_CNT, match_opcode, INSN_ALIAS },
 {"cfi_dbg1",   "I",   "d",  MATCH_CFI_DBG1, MASK_CFI_DBG1, match_opcode, INSN_ALIAS },
 {"cfi_dbg2",   "I",   "d",  MATCH_CFI_DBG2, MASK_CFI_DBG2, match_opcode, INSN_ALIAS },
 {"cfi_dbg3",   "I",   "d",  MATCH_CFI_DBG3, MASK_CFI_DBG3, match_opcode, INSN_ALIAS },
 {"cfi_dbg4",   "I",   "d",  MATCH_CFI_DBG4, MASK_CFI_DBG4, match_opcode, INSN_ALIAS },
-{"cfi_dbg5",   "I",   "d",  MATCH_CFI_DBG5, MASK_CFI_DBG5, match_opcode, INSN_ALIAS },
-{"cfi_dbg6",   "I",   "d",  MATCH_CFI_DBG6, MASK_CFI_DBG6, match_opcode, INSN_ALIAS },
-{"cfi_dbg7",   "I",   "d",  MATCH_CFI_DBG7, MASK_CFI_DBG7, match_opcode, INSN_ALIAS },
 
 /* Base Integer & Compressed */
 {"ebreak",    "C",   "",  MATCH_C_EBREAK, MASK_C_EBREAK, match_opcode, INSN_ALIAS },
