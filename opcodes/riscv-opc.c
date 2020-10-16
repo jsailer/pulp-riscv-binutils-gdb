@@ -150,10 +150,10 @@ const struct riscv_opcode riscv_opcodes[] =
 {"cfirec",    "I",   "u",  MATCH_CFIREC, MASK_CFIREC, match_opcode, 0 },
 
 /* FIXER instructions */
-{"cficall",   "I",   "",  MATCH_CFICALL, MASK_CFICALL, match_opcode, INSN_ALIAS },
-{"cfifwd",    "I",   "s",  MATCH_CFIFWD, MASK_CFIFWD, match_opcode, INSN_ALIAS },
-{"cfimatldcaller",  "I",   "a",  MATCH_CFIMATLDCALLER, MASK_CFIMATLDCALLER | MASK_RD, match_opcode, INSN_ALIAS },
-{"cfimatldcallee",  "I",   "a",  MATCH_CFIMATLDCALLEE, MASK_CFIMATLDCALLEE | MASK_RD, match_opcode, INSN_ALIAS },
+{"cficall",   "I",   "",  MATCH_CFICALL, MASK_CFICALL, match_opcode, 0 },
+{"cfifwd",    "I",   "s,j",  MATCH_CFIFWD, MASK_CFIFWD, match_opcode, 0 },
+{"cfimatldcaller",  "I",   "u",  MATCH_CFIMATLDCALLER, MASK_CFIMATLDCALLER, match_opcode, 0 },
+{"cfimatldcallee",  "I",   "a",  MATCH_CFIMATLDCALLEE, MASK_CFIMATLDCALLEE, match_opcode, 0 },
 
 /* EXCEC instructions */
 {"cficall_i",  "I",   "a",  MATCH_CFICALL_I, MASK_CFICALL_I | MASK_RD, match_opcode, INSN_ALIAS },

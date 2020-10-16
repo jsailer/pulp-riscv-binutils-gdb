@@ -274,7 +274,7 @@
 #define MATCH_CFICALL 0x6f7
 #define MASK_CFICALL  0xffffffff
 #define MATCH_CFIFWD 0x777
-#define MASK_CFIFWD  0xfff07fff
+#define MASK_CFIFWD  0x7fff
 #define MATCH_CFIMATLDCALLER 0x7f7
 #define MASK_CFIMATLDCALLER  0xfff
 #define MATCH_CFIMATLDCALLEE 0x877
