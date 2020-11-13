@@ -156,10 +156,10 @@ const struct riscv_opcode riscv_opcodes[] =
 {"cfimatldcallee",  "I",   "a",  MATCH_CFIMATLDCALLEE, MASK_CFIMATLDCALLEE, match_opcode, 0 },
 
 /* EXCEC instructions */
-{"cficall_i",  "I",   "a",  MATCH_CFICALL_I, MASK_CFICALL_I | MASK_RD, match_opcode, INSN_ALIAS },
-{"cfijump_i",  "I",   "a",  MATCH_CFIJUMP_I, MASK_CFIJUMP_I | MASK_RD, match_opcode, INSN_ALIAS },
-{"cficheck",   "I",   "a",  MATCH_CFICHECK, MASK_CFICHECK | MASK_RD, match_opcode, INSN_ALIAS },
-{"cfisetjmp",  "I",   "a",  MATCH_CFISETJMP, MASK_CFISETJMP | MASK_RD, match_opcode, INSN_ALIAS },
+{"cficall_i",  "I",   "u",  MATCH_CFICALL_I, MASK_CFICALL_I, match_opcode, INSN_ALIAS },
+{"cfijump_i",  "I",   "u",  MATCH_CFIJUMP_I, MASK_CFIJUMP_I, match_opcode, INSN_ALIAS },
+{"cficheck",   "I",   "u",  MATCH_CFICHECK, MASK_CFICHECK, match_opcode, INSN_ALIAS },
+{"cfisetjmp",  "I",   "u",  MATCH_CFISETJMP, MASK_CFISETJMP, match_opcode, INSN_ALIAS },
 {"cfilongjmp", "I",   "",  MATCH_CFILONGJMP, MASK_CFILONGJMP, match_opcode, INSN_ALIAS },
 
 /* ICET instructions */
