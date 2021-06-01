@@ -160,7 +160,7 @@ const struct riscv_opcode riscv_opcodes[] =
 {"cfijump_i",  "I",   "u",  MATCH_CFIJUMP_I, MASK_CFIJUMP_I, match_opcode, INSN_ALIAS },
 {"cficheck",   "I",   "u",  MATCH_CFICHECK, MASK_CFICHECK, match_opcode, INSN_ALIAS },
 {"cfisetjmp",  "I",   "u",  MATCH_CFISETJMP, MASK_CFISETJMP, match_opcode, INSN_ALIAS },
-{"cfilongjmp", "I",   "",  MATCH_CFILONGJMP, MASK_CFILONGJMP, match_opcode, INSN_ALIAS },
+{"cfilongjmp", "I",   "u",  MATCH_CFILONGJMP, MASK_CFILONGJMP, match_opcode, INSN_ALIAS },
 
 /* ICET instructions */
 {"cfiendbranch","I",   "",  MATCH_CFIENDBRANCH, MASK_CFIENDBRANCH, match_opcode, INSN_ALIAS },

@@ -288,7 +288,7 @@
 #define MATCH_CFISETJMP 0xa77
 #define MASK_CFISETJMP  0xfff
 #define MATCH_CFILONGJMP 0xaf7
-#define MASK_CFILONGJMP  0xffffffff
+#define MASK_CFILONGJMP  0xfff
 #define MATCH_CFIENDBRANCH 0xb77
 #define MASK_CFIENDBRANCH  0xffffffff
 #define MATCH_CFI_DBG_RST_CNT 0x6b
