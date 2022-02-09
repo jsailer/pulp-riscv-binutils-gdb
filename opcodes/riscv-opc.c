@@ -277,6 +277,9 @@ const struct riscv_opcode riscv_opcodes[] =
 {"ecall",     "I",   "",    MATCH_SCALL, MASK_SCALL, match_opcode, 0 },
 {"scall",     "I",   "",    MATCH_SCALL, MASK_SCALL, match_opcode, 0 },
 
+{"tagset",    "Xdift", "d,s,j", MATCH_TAGSET, MASK_TAGSET, match_opcode, 0 },
+{"tagrd",     "Xdift", "d,s,j", MATCH_TAGRD,  MASK_TAGRD,  match_opcode, 0 },
+
 {"scallimm",  "I",   "b3",   MATCH_SCALL, MASK_SCALL_IMM, match_opcode,   0 },
 
 {"xori",      "I",   "d,s,j",  MATCH_XORI, MASK_XORI, match_opcode, 0 },
